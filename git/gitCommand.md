@@ -31,6 +31,11 @@ $ git branch -r
 $ git branch -d {branch}
 ```
 
+* 원격에 있는 브랜치 삭제
+```
+$ git push origin {branch}
+```
+
 -------
 * 작성 후 브랜치 머지
 ```
