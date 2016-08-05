@@ -4,7 +4,7 @@
 #### docker-compose file은 yml파일로 작성한다.
 	* yml이란? xmr과 비슷한 데이터 직렬화 방식.
 
-
+i
 #### 컨테이너 띄우기
 compose파일이 있는 디렉토리에서 실행하기
 ```
@@ -31,4 +31,11 @@ $ sudo vi /etc/hosts
 #### docker 로그보기 (이어지게 보기)
 ```
 $ docker logs -f -t {컨테이너 명/ app 명}
-``` 
+```
+
+#### docker-compose 빌드하기
+	변경되었으면 재 빌드해야한다.
+```
+$ docker-compose --build
+```
+
