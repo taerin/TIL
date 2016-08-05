@@ -28,4 +28,7 @@ $ docker-logs {컨테이너 명}
 $ sudo vi /etc/hosts
 ```
 
-
+#### docker 로그보기 (이어지게 보기)
+```
+$ docker logs -f -t {컨테이너 명/ app 명}
+``` 
