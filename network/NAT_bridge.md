@@ -9,4 +9,4 @@ VMware 설치시 NAT와 Bridge 중 2가지의 네트워크 통신방법중 한�
 * 라우터가 VM에게 IP를 주는 방식.
 * VM에게 호스트컴퓨터는 다리역할을 할 뿐 라우터는 VM을  보기때문에 하나의 PC로 보기때문에 호스트컴퓨터 뿐만아닌 다른 컴퓨터들과도 통신이 가능하다.
 
-![NAT와Bridge](./images/NAT_bridge.jpeg)
+![NAT와Bridge](../images/NAT_bridge.jpeg)
