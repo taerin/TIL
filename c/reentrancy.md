@@ -11,8 +11,14 @@
 	Reentrant 하면 ---X--> 순수함수다
 	Reentrant 하면 <--O--- 순수함수다
 
+2. 재진입성의 조건
+	* 정적 (전역) 변수를 사용하면 안 된다.
+	* 정적 (전역) 변수의 주소를 반환하면 안 된다.
+	* 호출자가 호출 시 제공한 매개변수만으로 동작해야 한다.
+	* 싱글턴 객체의 lock에 의존하면 안 된다.
+	* 다른 비-재진입 함수를 호출하면 안 된다.
 
-2. Unix / Windows 차이점
+3. Unix / Windows 차이점
 	* Unix : strtok(buf, delimeter) / strtok_r(buf, delimeter, &ptr) 두가지 저번의 함수를 생성
 	-> 함수의 인터페이스를 변경함
 	
@@ -22,7 +28,7 @@
 	* Windows의 장점 : 기존 인터페이스 변경이 필요 없다.
 	  Windows의 단점 : C표준과 다르다.(C표준의 strtok 는 전역 상태에 의존)
 
-3. Thread-safe와 Reentrancy의 차이점
+4. Thread-safe와 Reentrancy의 차이점
 
 	* Thread-safe : 동기화를 스레드 안전하게 동작하게 하는 것
 				복수의 스레드에서 호출 될 수 있고 병렬로 실행 될 수 도 있다. 다만 완벽히 병렬을 보장하지는 않고 전역/정적변수나 공유객체가 있다면 Mutex와 같은 매커니즘으로 보호해야만 한다. 오직 Thread-safe만을 만족하는 코드라면 정적공간이나 공유객체 사용시 진입순서에 따라 실행결과가 달라질 수 있다.
@@ -35,5 +41,5 @@
 	Reentrant 하면 ---O--> Thread-Safe 하다
 	Reentrant 하면 <--X--- Thread-Safe 하다
 
-4. Thread가 공유하지 않는 전역 변수가 필요한 경우
+5. Thread가 공유하지 않는 전역 변수가 필요한 경우
  TLS(Thread Local Storage) / TSS(Thread Specific Storage) 을 사용한다.
