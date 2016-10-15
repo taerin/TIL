@@ -152,7 +152,7 @@ async는 무엇을 할까? async는 프로미스에서 리턴되는 value를 wra
 하지만 자바스크립트 모델은 변하지 않았다. 이것은 여전히 싱글스레드이다.
 코드는 오직 당신의 명백한 명령인 await에 의해서만 interrupt된다.
 
-``` javasrcript
+``` javascript
 var RP = require("request-promise");
 var sites = await Promise.all([
     RP("http://www.google.com"),
