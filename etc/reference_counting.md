@@ -114,5 +114,5 @@ int main()
 	2) Soft Reference : Out Of Memory가 발생했을 때 수거됩니다. 
 
 ### 순환참조
-	![Circular reference](../images/circular_reference.png)
+![Circular reference](../images/circular_reference.png)
 	실제로 레퍼런스 참조(P1 ,P2)가 끊어졌음에도 연결리스트에서 서로를 참조하고있으면 실제의 레퍼런스 카운트는 감소되지 못하고 가비지 컬렉터에의헤 수거되지 못하여 메모리 누수가 발생함.
