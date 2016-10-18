@@ -29,7 +29,7 @@ public class Program{
 ```
 	car에 관해 go라는 함수를 불렀을 때 상속에 의해 car의 go함수가 아닌 truck의 go 함수가 호출 된것을 알 수있다.
 	
-``` objectC
+``` objC
 #import <Foundation/Foundation.h>
 
 // Duck Typing - 다형성(상속)
