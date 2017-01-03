@@ -1,4 +1,9 @@
 # Try with resource
+Java SE 7부터 지원하는 기능으로 하나이상의 resource(프로그램이 사용 후 close 해야 하는 object)를 선언하는 try statement이다.
+Statement가 끝나면 resource는 자동으로 close 된다는 것을 보장한다.
+
+java.lang.AutoCloseable 을 구현한 객체는 try-with-resources statement 의 resource 가 될수있다.
+
 자원을 생성하고 사용하고 해제하는 코드는 항상 다음과 같이 구조가 중복되는 코드를 작성해야 한다. finally 블록의 자원 해제 코드까지하면 더 복잡하다. 
 
 ``` java 
