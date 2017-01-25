@@ -1,5 +1,6 @@
 # Android Resource 형식과 저장 위치 
 애플리케이션은 소스코드와 리소스로 구성되는데  안드로이드 어플리케이션은 리소스를 좀 더 적극적으로 활용한다. 즉, 레이아웃이나 메뉴, 심지어 간단한 그래픽 도형마저도 소스코드가 아닌 리소스를 통해 구현할 수 있게 한다.
+
 	* 소스코드: 해당 어플리케이션이 동작해서 처리하고자 하는 기능을 가리킨다.
 	* 리소스: 해당 어플리케이션이 동작할 때 사용하는 텍스트 문자열, 이미지, 아이콘, 오디오, 동영상 등을 가리킨다. 
 
@@ -7,16 +8,16 @@
 안드로이드 어플리케이션에서 리소스는 /res 디렉토리 안에서 관리되는데, 각 리소스 종류에 따라 /res 디렉토리 밑에 다양한 하위 디렉토리를 정의하여 관리된다.
 
 Resource 형식 | 폴더(/res/) | 파일명 (권장사항) | element / 비고
--------------|------------|--------------|-------------
-String | values | strings.xml |  <string> 요소를 정의한 어떤 XML 파일도가능 
-String Array | values | arrays.xml |  <string-array> 요소를 정의한 어떤 XML 파일도 가능 
-Color | value | values | colors.xml |  <color> 요소를 정의한 어떤 XML 파일도 가능 
-Dimension | values | dimens.xml | <dimen> 요소를 정의한 어떤 XML 파일도 가능 
-Simple drawables | values | drawables.xml | <drawable>
-Style & Theme | values | styles.xml themes.xml | styles.xml, themes.xml<권장>, <style> 요소를 정의한 어떤 XML 파일도 가능 
+-------------|------------|--------------|----------------
+String | values | strings.xml |  string 요소를 정의한 어떤 XML 파일도가능 
+String Array | values | arrays.xml |  string-array 요소를 정의한 어떤 XML 파일도 가능 
+Color | value | values | colors.xml |  color 요소를 정의한 어떤 XML 파일도 가능 
+Dimension | values | dimens.xml | dimen 요소를 정의한 어떤 XML 파일도 가능 
+Simple drawables | values | drawables.xml | drawable
+Style & Theme | values | styles.xml themes.xml | styles.xml, themes.xml<권장>, style 요소를 정의한 어떤 XML 파일도 가능 
 Bitmap graphics | drawable | *.png, *.jpg, *.xml | png, jpg, gif 등 각종 이미지 파일, 도형을 정의한 XML 파일 
-Animations |  anim | *.xml | <set> 루트 요소 밑에 <alpha>, <scale>, <translate>, <rotate> 등을 정의한 어떤 XML 파일도 가능 
-Menu | menu | *.menu |  <menu> 루트 요소 밑에 <item>, <group> 등을 정의한 어떤 XML 파일도 가능 
+Animations |  anim | *.xml | set 루트 요소 밑에 alpha, scale, translate, rotate 등을 정의한 어떤 XML 파일도 가능 
+Menu | menu | *.menu |  menu 루트 요소 밑에 item, group 등을 정의한 어떤 XML 파일도 가능 
 XML | xml | *.xml | 개발자 임의로 정의하는 모든 XML 파일 
 Raw file | raw | *.mp3, *.mp4, *.txt | mp3, mpg, txt, exe 등 각종 원본 파일 
 Layout | layout | .xml | main.xml 이 일반적으로 첫 화면에 대한 레이아웃을 정의한 XML 파일이며, 각 화면 별로 레이아웃을 개별 XML로 정의 가능 
@@ -36,12 +37,14 @@ Layout | layout | .xml | main.xml 이 일반적으로 첫 화면에 대한 레�
 
 #### 1. string
 [resource]
-``` xml
+
+``` java
 <string name="category1">도서</string>
 <string name="category2">음반</string>
 ```
 
 [use]
+
 ``` java
 String myResourceString = getResources().getString(R.string.category1); 
 ```
@@ -57,7 +60,8 @@ String myResourceString = getResources().getString(R.string.category1);
 
 #### 2. string-array
 [resource]
-``` xml
+
+``` java
  <string-array name="fruits">
         <item>사과</item>
         <item>오렌지</item>
@@ -71,6 +75,7 @@ String myResourceString = getResources().getString(R.string.category1);
 ```
 
 [use]
+
 ``` java
 String[] aGreens = getResources().getStringArray(R.array.fruits);
 ```
@@ -82,20 +87,22 @@ String[] aGreens = getResources().getStringArray(R.array.fruits);
 	* 색상 이름: name 속성 지정, 안드로이드 어플리케이션 내에서 전역 변수처럼 사용되므로, 식별자로써 역할을 할 수 있게 고유해야 한다.
 	* 색상 값: <color> 요소의 내용으로 지정, 비트 수 와 알파(투명도) 여부에 따라서 다음과 같이 네 가지 형태로 정의된다. (각각의 색상을 결정하는 인자 값은 16진수로 정의된다.)
 
-색상 예)
-#RGB               ex> #F00, 12비트 빨강
-#ARGB             ex> #8F00, 12비트 투명도 50% 빨강
-#RRGGBB         ex> #FF0000, 24비트 빨강
-#AARRGGBB     ex> #80FF0000, 24비트 투명도 50% 빨강 
+###  색상 예)
+* RGB          ex> #F00, 12비트 빨강
+* ARGB         ex> #8F00, 12비트 투명도 50% 빨강
+* RRGGBB       ex> #FF0000, 24비트 빨강
+* AARRGGBB     ex> #80FF0000, 24비트 투명도 50% 빨강 
 
 #### 3. color
 
 [resource]
-``` xml
+
+``` java
 <color name="backgroundColor">#ff0000</color>
 ```
 
 [use]
+
 ``` java
 int myBackColor = getResources().getColor(R.color.backgroundColor);
 ```
@@ -106,8 +113,10 @@ int myBackColor = getResources().getColor(R.color.backgroundColor);
 	* 크기 리소스를 정의하기 위한 XML 요소는 <dimen> 이다.
 	* 크기 이름: name 속성 지정, 안드로이드 어플리케이션 내에서 전역 변수처럼 사용되므로, 식별자로써 역할을 할 수 있게 고유해야 한다.
 	* 크기 값: <dimen> 요소의 내용으로 지정, 다양한 크기 단위들에 따라 크게 여섯 가지 형태로 정의된다.
+
+
 단위 | 설명 | 단위 접미사 | 예시 
-----|-----|---------|-----
+----|-----|----------|-----
 픽셀 | 실제 화면 픽셀 | px | 24px
 인치 | 물리적 길이 | in | 4in
 밀리미터 | 물리적 길이 | mm | 2mm
@@ -115,14 +124,16 @@ int myBackColor = getResources().getColor(R.color.backgroundColor);
 밀도 독립적 픽셀 | 160dpi 화면을 기준으로 한 픽섹 | db | 1db
 축척 독립적 픽셀 | 가변 글꼴 표시에 최적인 픽셀 | sp | 12sp
 
-
 #### 4. dimension (크기)
+
 [resource]
-``` xml
+
+``` java
 <dimen name="menuTextSize">18pt</dimen>
 ```
 
 [use]
+
 ``` java
 float textSize = getResources().getDimension(R.dimen.menuTextSize);
 ``` 
@@ -142,13 +153,11 @@ GIF(Graphics Interchange Format) | 사용하지 않는 것을 권장함. | .gif
 이미지를 아홉 조각으로 나눠서 해당 이미지를 확대, 축소할 때 각 조각 별로 비례 여부와 방향이 다르도록 설정된 이미지임.
 이는 안드로이드 고유의 이미지 형식으로, draw9patch 라는 툴(안드로이드 SDK 내/tools 디렉토리에 존재)을 사용하여 PNG 파일을 9-patch PNG로 변환할 수 있다.
 
-
-
 ### 5. drawable
 
 1) 
 [resource]
-``` xml
+``` java
 <drawable name="redRect">#F00</drawable>
 ```
 
@@ -160,6 +169,7 @@ ColorDrawable myDraw = (ColorDrawable)getResources().getDrawable(R.drawable.redR
 
 2)
 [resource]
+
 /res/drawable/egg.png
 
 [use]
@@ -204,7 +214,9 @@ eggImage.setImageResource(R.drawable.egg);
 * 여러 가지 속성을 함께 고려해서 복잡한 멀티 리소스 관리 가능
 여러 한정자를 리소스 디렉토리에 붙일 때는 앞에서 한정자들을 살펴봤던 순서대로 붙일 수 있다.
 
-<잘못 정의된 리소스 디렉토리 이름>
-/res/values-en-rUS-rGB-normal-v4 : 지역 한정자(rUS-rGB)가 두개나 정의됐다.
-/res/drawable-notlong-PORT-ldpi : 한정자가 대문자(PORT)로 정의됐다.
-/res/values-12key-kr : 한정자의 순서가 잘못 됐다. 기본 텍스트 입력 방법(12key)는 언어(kr) 뒤로 정의되어야 한다. 
+### 잘못 정의된 리소스 디렉토리 이름
+잘못 정의된 리소스 디렉토리 이름 | 이유
+-------------------------|-------
+/res/values-en-rUS-rGB-normal-v4 | 지역 한정자(rUS-rGB)가 두개나 정의됐다.
+/res/drawable-notlong-PORT-ldpi | 한정자가 대문자(PORT)로 정의됐다.
+/res/values-12key-kr | 한정자의 순서가 잘못 됐다. 기본 텍스트 입력 방법(12key)는 언어(kr) 뒤로 정의되어야 한다. 
