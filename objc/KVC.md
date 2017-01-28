@@ -17,7 +17,33 @@ KVC 는 KVO(Key-Value Observing), Cocoa Binding, Core Data, 어플리케이션�
 ## KVC 호환 클래스 설계
 Key-Value Observing, Key-Value Binding, Key-Value Scripting 같은 기술을 사용할 때 대부분 KVC를 간접적으로 사용한다. 프로퍼티를 조사하거나 바인딩 할 때 모두 KVC를 사용하기 때문이다. KVC를 사용하려면 객체가 KVC와 호환되게 해야한다.
 위에서 설명한 바와 같이 KVC는 인스턴스 변수에 대해 인트로스펙션을 
-@property를 이용할 경우 애플에서 권고하는 네이밍 룰을 사용해야 한다. 
+@property를 이용할 경우 애플에서 권고하는 네이밍 룰을 사용해야 한다. @synthesize 를 이용하면 프로퍼티의 get/set 메소드를 자동으로 생성하기 때문에 상관 없지만 get/set 메소드를 직접 구현할 경우 룰을 따라야 한다.
+
+일반적으로  get 메소드는 프로퍼티 이름을 get 메소드 이름 그대로 사용한다. Boolean 타입의 경우 프로퍼티 이름 앞에 is 를 붙일 수 있다.  set  메소드의 경우 프로퍼티 이름앞에 set 을 붙이고 프로퍼티 이름 첫글자는 대문자를 사용한다. 
+KVC 는 non-object 타입 (scalar 와 struct) 도 지원하며 자동으로 NSNumber, NSValue 로 자동 wrapping 된다.
+
+프로퍼티가 object 타입이 아닌 경우, nil 값 설정을 대비한 조치를 취할 필요도 있다. setNilValueForKey : 메소드는 프로퍼티에 nil 값이 설정될 때 호출되는데 이 메소드를 이용하면 Boolean 타입 같은 non-object 타입에 nil 값이 설정될 때 적절한 값으로 대체할 수 있다.
+
+아래 예제 코드는 Boolean 타입인 hidden 프로퍼티에 nil 값 설정이 시도되면 ‘YES’ 값으로 초기화 하고, hidden 프로퍼티가 아닌 경우에는 nil 값을 설정하는 코드다.
+
+``` objc
+-(void)setNilValueForKey:(NSString *)theKey{
+
+	if([theKey isEqualToString:@"hidden"]){
+
+		[self setValue:@"YES" forKey:@"hidden"];
+
+	} else {
+
+		[super setNilValueForKey:theKey];
+
+	}
+
+}
+```
+
+* 출처: https://soulpark.wordpress.com/2012/09/03/objective-c-key-value-coding/
+
 
 
 
