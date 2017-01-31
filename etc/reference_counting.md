@@ -58,7 +58,7 @@ int main()
 }
 
 ```
-ObjectC에서 Auto Reference Counting을 사용하게 되면 실제 위와 같은 코드(retain/ release]가 생성됩니다.
+ObjectC에서 Auto Reference Counting을 사용하게 되면 실제 위와 같은 코드(retain/ release)가 생성됩니다.
 위 코드는 ARC기능사용을 해제하고 구현한 코드입니다. 자동기능을 끄고 코드를 작성할 때는 레퍼런스 카운팅에 관련한 코드를 위와같이 직접 작성해야 합니다.
 
 ``` objc
