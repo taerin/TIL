@@ -93,6 +93,7 @@ null 직원을 익명 내부 클래스로 만드는 것은 이것의 인스턴�
 * 널 검사 로직이 최소화되어 코드가 간단해진다.
 
 ## Null Object 패턴의 단점
+* Null Object를 도입하면 null 체크는 줄어들게 되지만 클래스의 수가 증가한다. -> nulll 오브젝트의 클래스를 원래 네스트한 클래스로 실현으로 해결
 * Null Object 패턴은 전략패턴이나 상태패턴의 특수한 경우로 볼 수도 있다.
 * "Design Patterns"에서 나온 패턴은 아니지만, Martin Fowler의 Refactoring (한글판 298쪽)과 Joshua Kerievsky의 책에 "Insert Null Object refactoring"으로 나와있다.
 
@@ -111,4 +112,214 @@ null 직원을 익명 내부 클래스로 만드는 것은 이것의 인스턴�
 ## 결론
 C 기반 언어를 오래 사용해온 사람들은 어떤 종류의 실패에 대해 null이나 0을 반환하는 함수에 익숙하다. 이들은 이런 함수의 반환값은 검사되어야 할 펼요가 있다.그러나 __NULL OBJECT__ 패턴은 다르다. 이 패턴을 사용하면, 우리는 함수가 실패한 경우에도 항상 유효한 객제를 반환한다는 것을 보장할 수 있다.
 실패를 나타내는 객체들은 ‘아무 일도’ 하지 않는다.
+
+## Test
+
+### 리팩토링 전
+
+``` java
+class Label {
+	private String label;
+
+	public void display() {
+		System.out.println(this.label);
+	}
+
+	public Label(String label) {
+		this.label = label;
+	}
+}
+
+class Person {
+	private Label name;
+	private Label email;
+
+	public Person(Label name, Label email) {
+		this.name = name;
+		this.email = email;
+	}
+
+	public Person(Label name) {
+		this.name = name;
+		this.email = null;
+	}
+
+	public void display() {
+		name.display();
+
+		if (email != null) {
+			email.display();
+		}
+	}
+}
+
+public class Program {
+	public static void main(String args[]) {
+		Person[] people = {new Person(new Label("taerin"), new Label("taerin@gmail.com")),
+			new Person(new Label("tom"))};
+
+		for (Person p : people) {
+			p.display();
+		}
+	}
+}
+
+```
+
+### 리팩토링 후
+``` java
+class Label {
+	private String label;
+
+	public void display() {
+		System.out.println(this.label);
+	}
+
+	public boolean isNull() {
+		return false;
+	}
+
+	public Label(String label) {
+		this.label = label;
+	}
+}
+
+// 1. Null 오브젝트 클래스 만들기
+class NullLabel extends Label {
+	public NullLabel() {
+		super("(none)");
+	}
+	// 2. isNull 메소드 만들기
+	@Override
+		public boolean isNull() {
+			return true;
+		}
+
+	// 아무일도 하지 않는 display  메소드 생성
+	@Override
+		public void display() {
+		}
+}
+
+class Person {
+	private Label name;
+	private Label email;
+
+	public Person(Label name, Label email) {
+		this.name = name;
+		this.email = email;
+	}
+
+	public Person(Label name) {
+		this.name = name;
+		this.email = new NullLabel();
+	}
+
+
+	public void display() {
+		name.display();
+
+		// 3. null check를 메소드 호출로 치환하기.
+		if (!email.isNull()) {
+			email.display();
+		}
+	}
+}
+
+public class Program {
+	public static void main(String args[]) {
+		Person[] people = {new Person(new Label("taerin"), new Label("taerin@gmail.com")),
+			new Person(new Label("tom"))};
+
+		for (Person p : people) {
+			p.display();
+		}
+	}
+}
+
+```
+
+## 발전된 모양
+``` java
+class Label {
+	private String label;
+
+	// 내부 정적 클래스를 사용하는 싱글톤 사용 - IODH(Initialization On Demand Holder)
+	// 많은 클래스가 생성되는 문제를 해결할 수 있다.
+	private static class NullLabel extends Label {
+		private static final NullLabel INSTANCE = new NullLabel();
+
+		private static NullLabel getInstance() {
+			return INSTANCE;
+		}
+
+		public NullLabel() {
+			super("(none)");
+		}
+
+		@Override
+			public boolean isNull() {
+				return true;
+			}
+
+		@Override
+			public void display() {
+			}
+	}
+
+	// 정적 팩토리 메소드 - 인스턴스의 생성에 직접 클래스명을 사용하는 것을 숨기고 싶어서 사용
+	public static Label newNullLabel() {
+		return NullLabel.getInstance();
+	}
+
+	public void display() {
+		System.out.println(this.label);
+	}
+
+	public boolean isNull() {
+		return false;
+	}
+
+	public Label(String label) {
+		this.label = label;
+	}
+}
+
+class Person {
+	private Label name;
+	private Label email;
+
+	public Person(Label name, Label email) {
+		this.name = name;
+		this.email = email;
+	}
+
+	public Person(Label name) {
+		this.name = name;
+		this.email = Label.newNullLabel();
+
+		System.out.println(this.email);
+	}
+
+	public void display() {
+		name.display();
+
+		if (!email.isNull()) {
+			email.display();
+		}
+	}
+}
+
+public class Program {
+	public static void main(String args[]) {
+		Person[] people = {new Person(new Label("taerin"), new Label("taerin@gmail.com")),
+			new Person(new Label("tom")),
+			new Person(new Label("kkk"))};
+
+		for (Person p : people) {
+			p.display();
+		}
+	}
+}
+```
 
