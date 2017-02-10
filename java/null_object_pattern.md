@@ -298,6 +298,9 @@ class Person {
 		this.name = name;
 		this.email = Label.newNullLabel();
 
+		// Label$NullLabel@511d50c0
+		// Label$NullLabel@511d50c0
+		// 싱글톤을 사용하기 때문에 실제로 만들어지는 객체의 주소가 같은 것을 확인할 수 있다.
 		System.out.println(this.email);
 	}
 
