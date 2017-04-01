@@ -13,7 +13,7 @@ GET /user/:id |  특정유저 데이터 가져오기
 PATCH /user/:id | 유저의 데이터 수정
 DELETE /user/:id | 유저 삭제
 
-##2)  Use HTTP Status Codes Correctly
+## 2) Use HTTP Status Codes Correctly
 요청을 처리하는 중에 문제가 발생하면 응답의 올바른 상태 코드를 설정해야합니다.
 
 status code | 설명
@@ -23,7 +23,7 @@ status code | 설명
 4xx | 존재하지 않는 자원을 요청하는 것처럼 클라이언트 오류로 인해 요청을 수행 할 수 없는 경우
 5xx | API 측 에서 문제가 발생시
 
-##3) Use HTTP headers to Send Metadata
+## 3) Use HTTP headers to Send Metadata
 보내려는 페이로드에 대한 메타 데이터를 첨부하려면 HTTP 헤더를 사용하십시오. 예를 들면
 * pagination
 * rate limiting
@@ -43,7 +43,7 @@ HTTP 표준은 헤더의 크기 제한을 정의하지 않습니다. 그러나 N
 
 "HTTP 헤더 (상태 표시 줄 포함)의 전체 크기가 초과되지 않게 HTTP_MAX_HEADER_SIZE하십시오. 이 검사는 embedder가 버퍼링을 계속하는 끝이없는 헤더를 공격자가 제공하는 서비스 거부 공격으로부터 embedder를 보호하기위한 것입니다. "
 
-##4 ) Pick the right framework for your Node.js REST API
+## 4 ) Pick the right framework for your Node.js REST API
 ### 익스프레스, 코아 또는 하피
 Express , Koa 및 Hapi 는 브라우저 응용 프로그램을 만드는 데 사용할 수 있으므로 템플릿 기능과 렌더링 기능을 지원합니다. 응용 프로그램이 사용자 측면을 제공해야하는 경우에는 응용 프로그램을 사용하는 것이 좋습니다.
 
@@ -51,7 +51,7 @@ Express , Koa 및 Hapi 는 브라우저 응용 프로그램을 만드는 데 사
 반면 Restify는 REST 서비스를구축하도록 도와주는 것에 초점을 맞춥니다. 유지 보수가 가능하고 관찰 가능한 "엄격한"API 서비스를 구축 할 수 있도록 지원합니다. Restify는 모든 핸들러에 대한 자동 [DTrace](http://dtrace.org/blogs/about/)도 해줍니다.
 Restify는 npm 또는 Netflix 와 같은 주요 응용 프로그램에서 프로덕션에 사용됩니다 .
 
-##5) Black-Box Test your Node.js REST APIs
+## 5) Black-Box Test your Node.js REST APIs
 REST API를 테스트하는 가장 좋은 방법 중 하나는 블랙 박스로 취급하는 것입니다. 블랙 박스 테스트는 내부 구조 나 작동에 대한 지식없이 애플리케이션의 기능을 검사하는 방법을 테스트하는 방법입니다. 
 
 블랙 박스 테스트 Node.js를 REST API를 사용하여 당신을 도울 수있는 모듈 중 하나는 [supertest](https://www.npmjs.com/package/supertest) 입니다.
@@ -84,7 +84,7 @@ name: 'John Math'
 
 물론 블랙 박스 테스트가 단위 테스트를 할 필요가 없다는 것을 의미하는 것은 아니며, 여전히 API 용 [단위 테스트](https://blog.risingstack.com/node-hero-node-js-unit-testing-tutorial/) 를 작성 해야합니다.
 
-##6 ) Do JWT-Based, Stateless Authentication
+## 6 ) Do JWT-Based, Stateless Authentication
 REST API의 상태가 유지되어야하므로 인증 계층도 상태가 유지됩니다. 이를 위해 JWT (JSON Web Token) 가 이상적입니다.
 JWT는 세 부분으로 구성됩니다.
 	1) 헤더 토큰 유형 및 해시 알고리즘을 포함
@@ -113,7 +113,7 @@ secret: '42'
 JWT 모듈은 어떤 데이터베이스 계층에도 의존하지 않는다는 것을 눈치 채면됩니다. 이는 모든 JWT 토큰이 독자적으로 검증 될 수 있고 수명 값을 포함 할 수 있기 때문에 그렇습니다.
 또한 HTTPS를 사용하는 보안 연결을 통해서만 모든 API 끝점에 액세스 할 수 있도록해야합니다.
 
-##7 ) Use Conditional Requests
+## 7 ) Use Conditional Requests
 조건부 요청은 특정 HTTP 헤더에 따라 다르게 실행되는 HTTP 요청입니다. 헤더 조건을 충족한다면 다른 방식으로 실행되도록 하는 헤더를 전제 조건으로 생각할 수 있습니다. 
 이 헤더는 서버에 저장된 리소스 버전이 동일한 리소스의 특정 버전과 일치하는지 확인하려고 시도합니다. 이러한 이유 때문에 다음 헤더가 될 수 있습니다.
 
@@ -135,4 +135,4 @@ If-None-Match | Etag헤더 와 함께 사용
 만약 클라이언트가 If-Modified-Since과 If-None-Match header를 설정할 수 있
 
 
-
+## 8)  
