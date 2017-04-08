@@ -135,4 +135,49 @@ If-None-Match | Etag헤더 와 함께 사용
 만약 클라이언트가 If-Modified-Since과 If-None-Match header를 설정할 수 있
 
 
-## 8)  
+## 8) Embrace Rate Limiting
+Rate 제한은 주어진 소비자가 API에 보낼 수있는 요청 수를 제어하는데 사용됩니다.
+남아있는 요청 수를 API 사용자에게 알리려면 다음 헤더를 설정하십시오.
+
+헤더 | 용도
+-----|------
+X-Rate-Limit-Limit | 주어진 시간 간격에서 허용 된 요청 수
+X-Rate-Limit-Remaining | 동일한 간격으로 남아있는 요청 수
+X-Rate-Limit-Reset | Rate 제한이 재설정 되는 시간
+
+대부분의 HTTP 프레임워크(또는 플러그인이)는 이를 지원합니다. 예를 들어 Koa를 사용하는 경우 koa-ratelimit 패키지가 있습니다.
+시간 창은 다양한 API 제공 업체에 따라 달라질 수 있습니다 (예 : GitHub는 1 시간, Twitter는 15 분).
+
+## 9 : Create a Proper API Documentation
+다른 사람들이 사용할 수 있도록 API를 작성하는 것은 도움이 됩니다. 당신의 Node.js REST API에 대한 API 문서를 제공하는 것이 중요합니다.
+다음 오픈 소스 프로젝트는 API 문서를 만드는 데 도움을 줄 수 있습니다.
+* API Blueprint
+* Swagger
+* APIdoc
+
+또는 호스팅 된 제품을 사용하려면 Apiary를 사용하세요.
+
+## 10 : Don’t Miss The Future of APIs
+지난 몇년 사이에 페이스북의 GraphQL 과 넷플릭스의 Falcor가 새로운 쿼리 언어를 발표했습니다. 그것이 왜 우리에게 필요할까요?
+다음 RESTful 리소스 요청을 상상해보십시오.
+
+``` javascript
+/org/1/space/2/docs/1/collaborators?
+include=email&page=1&limit=10
+```
+
+언제든지 모든 모델에 대해 동일한 응답 형식을 얻으려는 경우가 있습니다. 이것은 GraphQL과 Falcor가 도움을 줄 수 있습니다.
+
+### About GraphQL
+GraphQL은 API에 대한 쿼리 언어이며 기존 데이터로 이러한 쿼리를 수행하기위한 런타임형 언어입니다. GraphQL은 API의 데이터에 대한 완벽하고 이해하기 쉬운 설명을 제공하고 고객에게 필요한 것을 정확히 물어볼 수있는 힘을 제공하며 시간이 지남에 따라 API를 쉽게 개발할 수있게하며 강력한 개발자 도구입니다.
+
+### About Falcor
+Falcor는 Netflix UI를 지원하는 혁신적인 데이터 플랫폼입니다. Falcor를 사용하면 모든 백엔드 데이터를 노드 서버의 단일 Virtual JSON 객체로 모델링 할 수 있습니다. 클라이언트에서는 get, set 및 call과 같은 친숙한 JavaScript 작업을 사용하여 원격 JSON 객체를 사용합니다. 데이터를 아는 경우 API를 알고 있습니다.
+
+## Amazing REST APIs for Inspiration
+Node.js REST API를 개발하거나 이전 버전의 새 버전을 만들려는 경우 체크 아웃 할 가치가있는 네 가지 프로젝트입니다.
+
+* [GitHub API](https://developer.github.com/v3/)
+* [Twilio API](https://www.twilio.com/docs/api/rest)
+* [Stripe API](https://stripe.com/docs/api)
+* [DigitalOcean API](https://developers.digitalocean.com/documentation/v2/#introductiono)
