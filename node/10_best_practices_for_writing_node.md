@@ -67,9 +67,9 @@ describe('GET /user/:id', function() {
 				.get('/user') 
 				.set('Accept', 'application/json') 
 				.expect(200, {
-id: '1', 
-name: 'John Math' 
-}, done);
+								id: '1', 
+								name: 'John Math' 
+				 			 }, done);
 				}); 
 		});
 ```
