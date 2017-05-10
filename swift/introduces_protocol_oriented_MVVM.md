@@ -135,4 +135,111 @@ class SwitchWithTextTableViewCell: UITableViewCell {
 
 이전에는 6개 이상의 인자가 필요했지만, 이제 하나의 인자만 있으면 충분합니다. 이제 뷰 모델은 다음과 같은 모습입니다.
 
+``` swift
+struct MinionModeViewModel: SwitchWithTextCellProtocol {
+	var title = "Minion Mode!!!"
+		var switchOn = true
+
+		var switchColor: UIColor {
+			return .yellowColor()
+		}
+
+	func onSwitchToggleOn(on: Bool) {
+		if on {
+			print("The Minions are here to stay!")
+		} else {
+			print("The Minions went out to play!")
+		}
+	}
+}
+```
+
+위 예제는 프로토콜을 따르고 필요한 모든 것을 설정합니다. 이전 예제에서 봤듯 모델 객체와 함께 뷰 모델을 초기화할 수 있습니다. 이제 뷰에 보여줄 형식을 파악하기 위해 잔고 정보가 필요한 상황처럼 특정 정보가 필요할때라면, 뷰 모델을 통해 정보를 실제로 사용할 수 있습니다.
+
+간단명료하죠? 이제 cellForRowAtIndexPath()도 아주 간결하게 만들 수 있습니다.
+
+``` swift
+// YourViewController.swift
+let cell = tableView.dequeueReusableCellWithIdentifier("SwitchWithTextTableViewCell", forIndexPath: indexPath) as! SwitchWithTextTableViewCell
+
+// This is where the magic happens!
+cell.configure(withDelegate: MinionModeViewModel())
+
+return cell
+```
+
+셀을 dequeue하고 뷰 모델과 함께 configure 메서드를 호출했습니다. 이 경우, 해당 프레이밍, 모델 레이어를 가지지 않아도 모델을 뷰 컨트롤러 레벨에서 추적할 수 있습니다. 뷰 모델에 넘기면 셀이 생성되죠. 리팩토링 이후 코드에는 오직 세 줄만이 남습니다!
+
+# 더 많이 추상화 하기
+이제까지 6개의 인자가 있는 방대한 configure 메서드를 프로토콜로 변환하는 프로토콜 사용예를 보여드렸습니다. 압축적인 로직으로 코드를 멋지게 개선하는 사용예를 찾아내서 만족스러운 마음으로 이에 관한 블로그를 썼습니다. 그런데 “프로토콜을 두 개 만들어서 하나는 실제 인코딩된 정보의 데이터 소스 프로토콜로 사용하면 어떨까요?” 라는 댓글이 달렸습니다. 형식을 만드는 것과 실제 정보가 분리돼야 하듯 색과 폰트처럼 대립되는 정보는 분리돼야 하겠죠. 실제로 Apple이 UITableViewCells나 컬렉션 뷰에서 사용하는 패턴입니다.
+
+정말 멋진 아이디어라고 생각해서 제 로직도 분리해서 아래처럼 셀 데이터 저장소와 셀 델리게이트를 만들었습니다.
+
+``` swift
+protocol SwitchWithTextCellDataSource {
+    var title: String { get }
+    var switchOn: Bool { get }
+}
+
+protocol SwitchWithTextCellDelegate {
+	func onSwitchToggleOn(on: Bool)
+
+	var switchColor: UIColor { get }
+	var textColor: UIColor { get }
+	var font: UIFont { get }
+}
+```
+
+그 다음, configure 메서드와 데이터 스토리지로 델리게이트를 만들었습니다. 폰트 종류나 색처럼 기본 밸류의 경우 프로토콜 익스텐션에서 델리게이트를 모두 설정할 수 있으므로, 인자를 넘길 필요도 없이 필요할 때 만들기만 하면 됩니다.
+
+``` swift
+// SwitchWithTextTableViewCell
+func configure(withDataSource dataSource: SwitchWithTextCellDataSource, delegate: SwitchWithTextCellDelegate?)
+{
+	// Configure views here
+}
+```
+
+익스텐션으로 뷰 모델을 개선했습니다. 데이터 소스를 따르고, 원본 정보를 변환해서 뷰로 넘기는 셀 블록 하나가 생기죠.
+
+``` swift
+struct MinionModeViewModel: SwitchWithTextCellDataSource {
+	    var title = "Minion Mode!!!"
+	    var switchOn = true
+}
+```
+
+다음으로 독립적인 뷰 모델에 폰트나 색을 보유하고 내부적으로 처리하는 델리게이트를 만듭니다.
+
+``` swift
+extension MinionModeViewModel: SwitchWithTextCellDelegate {
+	var switchColor: UIColor {
+		return .yellowColor()
+	}
+
+	func onSwitchToggleOn(on: Bool) {
+		if on {
+			print("The Minions are here to stay!")
+		} else {
+			print("The Minions went out to play!")
+		}
+	}
+}
+```
+
+마침내 테이블 뷰 셀이 정말 간결해졌습니다.
+
+``` swift
+// SettingsViewController
+
+let viewModel = MinionModeViewModel()
+	cell.configure(withDataSource: viewModel, delegate: viewModel)
+	return cell
+
+```
+
+뷰 모델을 만들고 configure 메서드에 넘겨서 셀을 반환받았습니다.
+
+## Swift 2.0의 Mixins과 Traits
+
 
