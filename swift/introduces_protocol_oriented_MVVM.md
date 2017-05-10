@@ -58,5 +58,81 @@ struct AccountViewModel {
 
 모델을 포함하는 이 뷰 모델을 통해 정보를 뷰에 보여지기 원하는 형식으로 구성할 수 있습니다. 게다가 테스트도 쉽죠. 이 방법 대신 계좌 정보를 모델에 넣을 수도 있겠지만 출력값이 명료하지 않기 때문에 뷰 컨트롤러나 뷰를 테스트하기 어렵습니다.
 
+## 조에트로프 모델
+보여드린 뷰 모델은 밸류 타입입니다. Swift에서 어떻게 작동할까요?
+
+뷰 컨트롤러가 최신 뷰 모델을 가져야 합니다. 밸류 타입데이터 타입이므로 단순히 데이터의 복사본일뿐 이 시점에서는 직접 반응해서는 안됩니다. 뷰 컨트롤러가 데이터의 복사본을 추적해서 어떤 정보가 사용자에게 보여질지 결정하죠. 가장 최신 버전의 복사본이 될 겁니다.
+
+Andy Matuschak는 zoetrope에 빗대어 생각해보라고 합니다. 일본 지브리 박물관에 있는 멋진 기구죠.
+핵심은 zoetrope의 각각의 프레임이 정적 값이라는 점입니다. 캐릭터의 손이 얼마나 높게 들렸는지, 혹은 머리가 얼마나 기울어졌는지에 따라 캐릭터를 인코딩할 수 있습니다. 각 버전은 정적이지만 모든 프레임을 모아서 가운데를 바라보면 항상 새로운 데이터 값이 보이게 되죠. 따라서 멋지게 움직이는 이미지를 만들 수 있습니다.
+
+밸류 타입도 이 같은 방식으로 접근할 수 있습니다. 뷰 컨트롤러는 zoetrope의 가장 최근 프레임을 추적합니다. 즉, 활성화된 가장 최근 데이터를 사용자에게 보여주는 것이죠. 모델이 업데이트되자마자 새 데이터가 생기므로, 새 뷰 모델을 계산할 수 있습니다. 이제 뷰를 최신 정보로 업데이트할 수 있습니다.
+
+``` swift
+var viewModel = ViewModel(model: Account)
+```
+
+## 최악의 프로토콜
+자, 이제 가장 재밌는 부분을 간단한 예제와 함께 살펴볼까요? 대부분의 앱에 있는 설정 화면과 같은 테이블 뷰에 전체 앱을 노란색으로 칠하는 슬라이더 설정 하나만 있다고 가정해 봅시다.
+
+정말 간단한 상황이지만 꽤 복잡해질 수 있습니다. 테이블 뷰 셀 내부의 모든 컴퍼넌트가 어떤 식으로든 형식이 맞춰져야 하죠. label이 있다면 폰트 종류, 폰트 색, 폰트 크기 등을 선언해야 합니다. switch가 있다면 그 switch가 켜질때도 생각해야겠죠. 단지 두 개의 element만을 포함한 아주 간단한 테이블 뷰 셀이지만 벌써 환경을 설정해야 할 6가지 케이스가 생겼습니다.
+
+``` swift
+class SwitchWithTextTableViewCell: UITableViewCell {
+	func configure(
+			title: String,
+			titleFont: UIFont,
+			titleColor: UIColor,
+			switchOn: Bool,
+			switchColor: UIColor = .purpleColor(),
+			onSwitchToggleHandler: onSwitchTogglerHandlerType? = nil) {	
+		// Configure views here
+	}
+}
+```
+
+아마 이보다 훨씬 더 복잡한 테이블 셀을 사용하는 것이 일반적일 겁니다. 그 경우 제 코드의 configure 메서드가 너무 커져버릴 수도 있습니다. subtitle을 붙인다면 3개의 새 프로퍼티를 더 설정해야 하죠. Swift에서는 이 때 기본 밸류를 사용할 수 있도록 지원하지만, configure 메서드 크기까지 해결해주진 못합니다.
+
+실제로 이 메서드를 호출하는 뷰 컨트롤러에는 자기가 다뤄야할 정보를 담는 스택이 있습니다. 그다지 예쁘지 않아 맘에 들지는 않지만 프로토콜 이전에 사용할 수 있는 최선이었습니다.
+
+
+## 뷰 모델과 프로토콜
+
+방대한 configure 메서드를 버리고 셀을 위한 SwitchWithTextCellProtocol에 각 부분을 넣는 방법도 있습니다. 해당 프로토콜을 따르고, 해당 프로퍼티들을 알맞게 설정하는 뷰 모델을 만들 수 있죠. 이제 무식한 configure 메서드에서는 벗어났지만, 아직은 모든 프로퍼티가 실제로 설정되었는지 확인할 방법이 없습니다.
+
+``` swift
+protocol SwitchWithTextCellProtocol {
+	var title: String { get }
+	var titleFont: UIFont { get }
+	var titleColor: UIColor { get }
+
+	var switchOn: Bool { get }
+	var switchColor: UIColor { get }
+
+	func onSwitchToggleOn(on: Bool)
+}
+```
+
+Swift 2.0의 프로토콜 익스텐션을 사용하면 기본 밸류를 통해 같은 작업을 할 수 있습니다. 대부분의 셀과 관련된 특정색이 있다면 프로토콜 익스텐션을 extend해서 그 색을 설정하면 됩니다. 이제 이를 구현하는 모든 뷰 모델은 색을 다시 설정할 필요가 없어서 정말 편리합니다.
+
+``` swift
+extension SwitchWithTextCellProtocol {
+	var switchColor: UIColor {
+		return .purpleColor()
+	}
+}
+```
+
+configure 메서드는 이 프로토콜을 따르는 기능을 다음처럼 포함할 수 있습니다.
+
+``` swift
+class SwitchWithTextTableViewCell: UITableViewCell {
+	func configure(withDelegate delegate: SwitchWithTextCellProtocol) {
+		// Configure views here
+	}
+}
+```
+
+이전에는 6개 이상의 인자가 필요했지만, 이제 하나의 인자만 있으면 충분합니다. 이제 뷰 모델은 다음과 같은 모습입니다.
 
 
