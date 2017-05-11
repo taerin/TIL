@@ -241,5 +241,37 @@ let viewModel = MinionModeViewModel()
 뷰 모델을 만들고 configure 메서드에 넘겨서 셀을 반환받았습니다.
 
 ## Swift 2.0의 Mixins과 Traits
+프로토콜을 만들고 코드를 간결하게 바꾸며 블로그 기고를 하고 배움도 얻어서 아주 만족스러웠던 그 때, 다른 분에게도 꼭 추천하고 싶은 놀라운 기사, @mhollemans의 [Swift 2.0의 Mixins](http://machinethink.net/blog/mixins-and-traits-in-swift-2.0/)를 읽었습니다.
 
+게임 개발에서는 계층구조가 강하고 Subclassing이 자주 일어납니다. 몬스터는 여러 다른 몬스터 타입을 가지는 식입니다. 뷰의 Subclassing이 필요해지죠. 하지만 결국 엉망진창인 구조가 될 수밖에 없습니다.
+처음 subclassing을 할 때 단순할 것이라고 예상했던 것들이 점점 복잡해지고 결국 스파게티 코드의 주범이 될 수 있습니다.
+
+Matthijs는 이 코드를 리팩토링해서 무엇이 공격이나 치료를 할 수 있는지 하위 객체에 정하는 로직을 버리고 프로토콜 익스텐션을 사용해서 프로토콜로 발췌했습니다.
+
+리팩토링 결과 코드가 훨씬 간결해지고 이해하기 쉬워졌죠. 예제를 볼까요?
+
+``` swift 
+class ZapMonster: GameObject, GunTrait, RenderTrait, HealthTrait, MovementTrait {
+	    ...
+}
+```
+구현 부분을 보지 않아도 객체의 타입만으로 객체에 어떤 일이 일어날지 파악할 수 있습니다. 이 패턴을 사랑하지 않을 수가 없네요!
+
+## 앱에 Mixins 적용하기
+사실 게임 개발에 대한 얘기였지만 이 컨셉을 테이블 뷰 셀이 있는 제 코드에 적용할 수 있었습니다. 프로토콜을 실제 셀에 결부하지 않고 보다 포괄적인 TextPresentable에 결부시켰죠. 이 방식으로 셀뿐만 아니라 label을 지닌 어떤 뷰이든지 텍스트를 보여주는 프로토콜을 따를 수 있습니다. TextPresentable에서 이 텍스트에 포함될 것이 무엇인지, 혹은 어떤 텍스트, 어떤 색, 어떤 폰트를 사용할 것인지 말할 수 있는 곳입니다.
+
+``` swift
+protocol TextPresentable {
+	var text: String { get }
+	var textColor: UIColor { get }
+	var font: UIFont { get }
+}
+
+protocol SwitchPresentable {
+	var switchOn: Bool { get }
+	var switchColor: UIColor { get }
+
+	func onSwitchToggleOn(on: Bool)
+}
+```
 
