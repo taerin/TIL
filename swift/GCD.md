@@ -121,7 +121,10 @@ dispatch_once를 사용못하게 됨에 따라 Swift 3.0부터는 static let속�
 final class ClassSample {
 	static let sharedInstance = ClassSample()
 
-	private init() {  //	}
+	private init() {  
+		// 초기화 작업
+	}
+
 }
 ```
 
