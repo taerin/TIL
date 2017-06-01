@@ -1,6 +1,6 @@
 # GCD(Grand Central Dispatch) API
 
-## GDC 란?
+## GCD 란?
 GCD(Grand Central Dispatch)는 iOS 4 이후 버전에서 멀티스레드 프로그래밍을 쉽게 사용할 수 있도록 도와주기 위해 새롭게 소개된 기능이다
 디스패치 큐(Dispatch Queue)는 실행할 작업을 저장하는 큐이다. 위의 dispatch_async 함수를 사용하여 할 작업들을 디스패치 큐에 추가할 수 있다. 
 큐에 등록시 다음 실행방식 하나를 지정할 수 있다.
