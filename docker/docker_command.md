@@ -4,7 +4,7 @@
 #### docker-compose file은 yml파일로 작성한다.
 	* yml이란? xmr과 비슷한 데이터 직렬화 방식.
 
-i
+
 #### 컨테이너 띄우기
 compose파일이 있는 디렉토리에서 실행하기
 ```
