@@ -37,8 +37,8 @@ Me.speak()
 
 이 코드는 JavaScript 로 보이지는 않지만 다음과 같은 새로운 문법이 들어있다.
 
-	* @ 는 this 를 대신한다. 그러므로 this.user 는 @user 이다.
-	* 함수는 => 나 -> 로 선언되고 function 키워드는 사용하지 않는다.
+* @ 는 this 를 대신한다. 그러므로 this.user 는 @user 이다.
+* 함수는 => 나 -> 로 선언되고 function 키워드는 사용하지 않는다.
 
 그리고 CoffeeScript는 == 를 허용하지 않고 === 를 강제한다. 예외가 되는 케이스는 강제 형변환이나 ` 사이에 JavaScript 를 넣어서 사용할 때다.
 
