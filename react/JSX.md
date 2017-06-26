@@ -16,4 +16,25 @@ React는 컴포넌트가 관심을 분리하는데 있어서 디스플레이 로
 
 이 문제를 해결하기 위해 사용자 인터페이스를 만드는 Javascript 코드로부터 HTML과 컴포넌트 트리들을 직접적으로 생성하는 것이 최고의 해결책이라는 것을 발견했고, 개발자로 하여금 HTML 문법을 이용해 아래와 같이 Javascript 객체를 만들게 합니다.
 
+## JSX에 표현식 포함하기
+``` javascript
+function formatName(user) {
+  return user.firstName + ' ' + user.lastName;
+}
+ 
+const user = {
+  firstName: 'Harper',
+   lastName: 'Perez'
+};
+ 
+const element = (
+  <h1>Hello, {formatName(user)}!</h1>
+);
+ 
+ReactDOM.render(
+  element,
+  document.getElementById('root')
+);
+
+```
 [출처](http://webframeworks.kr/getstarted/reactjs/)
