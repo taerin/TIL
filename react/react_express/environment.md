@@ -14,3 +14,5 @@
 Webpack은 당신의 client-side 코드(JavaScript, css, etc)를 하나의 JavaScript file로 묶어줍니다. Webpack은 당신이 개발하거나 프로덕션하는 동안 리액트 앱을 bundle하는 가장 흔한 방식이 될겁니다.
 만약 create-react-app 보다 당신이 좀더 유연하거나 강력함을 원한다면 당신은 Webpack이나 Babel 플러그인을 배워야만 합니다. (브라우저 호환을 위한 ES2015/JSX 코드를 컴파일 하기위해서 말입니다.)
 다음 섹션에서는 create-react-app를 사용하여 React 앱을 작성하거나 Webpack을 사용하여 처음부터 React 앱을 빌드하는 데 필요한 도구에 대해 설명합니다.
+
+[출처](http://www.react.express/environment)
