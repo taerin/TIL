@@ -126,10 +126,7 @@ int main ()
 위 예제는 multiplexing을 사용하여 작성한 코드로 이제 select 함수를 통하여 어떤 이벤트가 발생했는지를 감지하여 처리합니다.
 
 ## Multiplexing 모델
-	* Window - IOCP (I/O Comp letion Port) => Proactor
-	윈도우에서는 아래와 같은 문제를 thread로 처리합니다. 별도의 thread로 callback을 호출하는 방법으로 처리합니다. 이 방법은 무한정 스레드를 계속해서 만드는 것이 아니라 스레드 풀을 사용합니다. 멀티 코어의 시대로 오면서 이 방법이 성능의 향상을 기대할 수 있게 되었습니다.
-	* Linux - epoll => Reactor 
-	리눅스의 epoll은 extention poll입니다. 기존의 poll은 한번에 처리할 수 있는 file descriptor의 수가 한정되어있다는 문제가 있기 때문에 확장한 것입니다. 이 방법 또한 별도의 스레드 풀을 사용하여 이벤트를 처리합니다.
-	자바의 NIO1은 이 모델을 구
-
- 
+### Window - IOCP (I/O Comp letion Port) => Proactor
+윈도우에서는 아래와 같은 문제를 thread로 처리합니다. 별도의 thread로 callback을 호출하는 방법으로 처리합니다. 이 방법은 무한정 스레드를 계속해서 만드는 것이 아니라 스레드 풀을 사용합니다. 멀티 코어의 시대로 오면서 이 방법이 성능의 향상을 기대할 수 있게 되었습니다.
+### Linux - epoll => Reactor 
+리눅스의 epoll은 extention poll입니다. 기존의 poll은 한번에 처리할 수 있는 file descriptor의 수가 한정되어있다는 문제가 있기 때문에 확장한 것입니다. 이 방법 또한 별도의 스레드 풀을 사용하여 이벤트를 처리합니다.
