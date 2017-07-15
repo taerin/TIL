@@ -33,6 +33,60 @@ Ember는 해외에서는 인기가 있지만 국내에서는 전혀 관심을 �
 
 * React
 React는 2015년에 React Native가 나오면서 인기를 끌고 있는 후보였다. 뉴스레터에서 인기가 계속 높아지고 있었고 다음과 같이 라이브러리를 비교하는 글들에서도 좋은 점이 부각되고 있어 호감도가 제일 높은 후보였다.
+* [Choosing a Front End Framework: Angular vs. Ember vs. React](https://smashingboxes.com/blog/choosing-a-front-end-framework-angular-ember-react)
+* [Why We Moved From Angular to React](http://blog.belong.co/why-we-moved-from-angular-to-react)
+
+## ECMAScript 2015와 React 선택
+후보군 사이에서 한창 고민하고 있을 때 "[Front-end 개발의 괜찮은 선택 ES6 & ReactJS](http://readme.skplanet.com/?p=12183)"  발표를 들었다. 발표의 많은 부분에 공감했고 발표를 참고해 다음과 같은 선택 기준을 세웠다.
+
+* 오랫동안 유지 보수가 가능하고 지속 가능한 코드가 되면 좋겠다.
+* 외부 라이브러리 의존도가 없으면 좋겠다.
+* 되도록 표준(HTML5, ECMAScript 2015)을 사용하자.
+
+> HTML5와 ECMAScript 2015를 사용하면 jQuery와 Underscore 같은 라이브러리를 사용하지 않아도 된다. 다음 글은 jQuery와 Underscore를 HTML5와 ECMAScript 2015로 대체할 수 있는 다양한 방법과 예를 보여 준다. 
+> [You might not need jQuery](http://youmightnotneedjquery.com/)
+> [You Might Not Need Underscore](https://www.reindex.io/blog/you-might-not-need-underscore/)
+
+결론은 표준인 ECMAScript 2015와 잘 어울리고 외부 라이브러리 의존이 없는 React였다.
+
+잘 알려진 React의 다음 장점도 선택에 영향을 주었다.
+
+* Virtual DOM을 통한 성능 이점
+* 컴포넌트 단위의 재사용성 증대
+* 서버와 클라이언트가 같은 코드로 렌더링하는 유니버설 렌더링(universal rendering) 사용 가능
+* Facebook이 실제 서비스(Facebook과 Instagram)에 적용해 운영 중
+
+그러나 ECMAScript 2015와 React를 적용하려고 보니 추가로 공부해야 하는 부분이 많았다.
+
+* ECMAScript 2015
+* React
+* webpack
+* Babel
+* Flux, Redux
+
+## ECMAScript 2015 학습
+ECMAScript 2015는 많이 사용하게 될 것 같은 문법 위주로 주제를 맡아 하루 30분~1시간씩 2주일 동안 스터디를 진행해 익히는 방식으로 공부했다. 스터디 진행 시에는 추가된 문법이 무엇이 있는지 훑어보는 정도로만 학습하고 실제로 개발을 진행하면서 체득한 덕분에 ECMAScript 2015를 빠르게 익힐 수 있었다.
+
+"[Exploring ES6](http://exploringjs.com/es6/index.html)" 를 기본 자료로 보며 스터디를 진행했다. 다음 장들을 중점적으로 봤으며, 이 장들에 있는 내용은 실제 개발 중에도 많이 사용했다.
+
+* [Variables and scoping](http://exploringjs.com/es6/ch_variables.html)
+* [Template literals](http://exploringjs.com/es6/ch_template-literals.html)
+* [Destructuring](http://exploringjs.com/es6/ch_destructuring.html)
+* [Arrow functions](http://exploringjs.com/es6/ch_arrow-functions.html)
+* [Classes](http://exploringjs.com/es6/ch_classes.html)
+* [Modules](http://exploringjs.com/es6/ch_modules.html)
+* [Promises for asynchronous programming](http://exploringjs.com/es6/ch_promises.html)
+
+## React 학습
+React 학습은 개발을 시작하기 전에 1박 2일 동안 세미나를 하며 진행했다. 기존 개발 방식과는 패러다임이 다르기 때문에 세미나 진행을 통한 사고의 전환 과정이 이후 빠른 개발에 큰 도움이 됐다.
+
+## webpack과 Babel 학습
+webpack과 Babel은 개발 환경 설정에 가까운 내용이라 한 사람만 고생해서 설정을 마치면 다른 개발자는 편하게 그 환경에서 개발을 진행하면 된다. 팀원 중 비교적 시간이 많은 사람이 시간을 투자해 고생하며 학습한 덕분에 다른 개발자들은 편하게 개발할 수 있었다.
+이런 설정은 프로젝트의 환경 설정을 표준화하는 보일러플레이트 프로젝트를 참고하면 도움이 많이 된다. React 프로젝트를 위한 보일러프레이트 프로젝트도 많아서 취향에 맞게 프로젝트를 선택할 수 있는 다음과 같은 사이트도 있다.
+
+* [Find your perfect React starter project](http://andrewhfarmer.com/starter-project/)
+
+## Flux와 Redux 학습
 
 
 
