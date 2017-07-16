@@ -178,12 +178,102 @@ Object.prototype 혹은 빌트인 프로토타입의 확장은 종종 이용되�
 
 이 기법은 Monkey patching으로 불리며 캡슐화를 망가뜨린다. Prototype.js와 같은 유명한 프레임워크에서도 사용되지만, 빌트인 타입에 비표준 기능을 추가하는 것은 좋은 생각이 아니다.
 
-유일하게 좋은 사용 예라면, 사로운 자바스크립트 엔진에 Array.forEach등의 새로운 기능을 추가하면서 빌트인 프로토타입을 확장하는 것 정도다. 
+유일하게 좋은 사용 예라면, 새로운 자바스크립트 엔진에 Array.forEach등의 새로운 기능을 추가하면서 빌트인 프로토타입을 확장하는 것 정도다. 
 
 # 예
 B는 A를 상속한다:
 
 ``` javascript
 
+n A(a) {
+  this.varA = a;
+}
+
+// A의 정의에서 this.varA는 항상 A.prototype.varA가 가려버리는데
+// prototype에 varA를 다시 넣는 이유는 무엇인가?
+A.prototype = {
+  varA: null,  // 아무것도 안하면서 varA를 쓰는 이유가 있을까?
+      // 아마도 숨겨진 클래스의 할당 구조를 최적화 하려는 것인가?
+      // https://developers.google.com/speed/articles/optimizing-javascript#Initializing-instance-variables
+      // 모든 객체의 varA가 동일하게 초기화 되어야 상기 링크 내용이 유효할 수 있다.
+  doSomething: function() {
+    // ...
+  }
+};
+
+function B(a, b) {
+  A.call(this, a);
+  this.varB = b;
+}
+B.prototype = Object.create(A.prototype, {
+  varB: {
+    value: null, 
+    enumerable: true, 
+    configurable: true, 
+    writable: true 
+  },
+  doSomething: { 
+    value: function() { // override
+      A.prototype.doSomething.apply(this, arguments); // call super
+      // ...
+    },
+    enumerable: true,
+    configurable: true, 
+    writable: true
+  }
+});
+B.prototype.constructor = B;
+
+var b = new B();
+b.doSomething();
+```
+
+중요한 점은:
+
+* .prototype에 타입이 정의되어 있다.
+* Object.create()을 이용하여 상속한다.
+
+# prototype 그리고 Object.getPrototypeOf
+Java나 C++에 익숙한 개발자는 클래스라는 것도 없고, 모든 것이 동적이고 실행 시 결정되는 자바스크립트의 특징 때문에 어려움을 겪을 수도 있다. 모든 것은 객체이고, 심지의 "class"를 흉내내는 방식도 단지 함수 오브젝트를 이용하는 것 뿐이다.
+이미 알아챘겠지만 우리의 함수 A도 특별한 속성 prototype를 가지고 있다. 이 특별한 속성은 자바스크립트의 new 연산자와 함께 쓰인다. 프로토타입 오브젝트는 새로 만들어진 인스턴스의 내부 [[Prototype]] 속성에 복사되어 참조된다. 가령, var a1 = new A()를 수행할 때, this를 포함하고 있는 함수을 수행하기 전, 메모리에 새로 생성된 객체를 생성한 직후 자바스크립트는 a1.[[Prototype]] = A.prototype를 수행한다. 그 인스턴스의 속성에 접근하려 할 때 자바스크립트는 그 오브젝트의 개인 속성인지 우선 확인하고 그렇지 않은 경우에 [[Prototype]]에서 찾는다.
+이것은 prototype에 정의한 모든 것은 오든 인스턴스가 효과적으로 공유한다는 뜻이며, 심지어 프로토타입의 일부를 나중에 변경하다고 해도 이미 생성되어 있는 인스턴스는 필요한 경우 그 변경 사항에 접근할 수 있다는 것이다
+위의 예에서, 만일
+``` javascript
+var a1 = new A();
+var a2 = new A();
+
+a1.doSomething();
+```
+
+Object.getPrototypeOf(a1).doSomething를 가리키게 되는 것은 A.prototype.doSomething으로 정의한 것과 같게 된다. 
+
+즉, Object.getPrototypeOf(a1).doSomething == Object.getPrototypeOf(a2).doSomething == A.prototype.doSomething.
+
+요약 하자면, prototype은 타입 정의를 위한 것이고,  Object.getPrototypeOf()는 모든 인스턴스가 공유한다.
+
+[[Prototype]]은 재귀적으로 탐색된다. 즉, a1.doSomething, Object.getPrototypeOf(a1).doSomething,  Object.getPrototypeOf(Object.getPrototypeOf(a1)).doSomething 등, 발견했거나 Object.getPrototypeOf이 null을 반환할 때까지 반복된다.
+
+따라서 다음 호출에 대하여
+``` javascript
+var o = new Foo();
+```
+
+자바스크립트는 실제로 다음 작업을 수행한다.
+
+``` javascript
+var o = new Object();
+o.[[Prototype]] = Foo.prototype;
+Foo.call(o);
+```
+(혹은 그런 비슷한 작업, 내부 구현은 다를 수 있다) 그리고 나중에 다음을 수행하면
+
+``` javascript
+o.someProp;
+```
+
+자바스크립트는 o가 속성 someProp을 가졌는지 확인하고, 아니면 Object.getPrototypeOf(o).someProp, 또 아니면 Object.getPrototypeOf(Object.getPrototypeOf(o)).someProp 등으로 계속 된다.
+
+# 결론
+복잡한 코드를 작성하여 이용하기 전에 프로토타입 기반의 상속 모델을 이해하는 것이 중요하다. 또한 프로토타입 체인의 길이는 성능을 저해하지 않도록 줄이는 방법을 고안해야 한다. 또한 빌트인 프로토 타입은 새로운 자바스크립트 기능과 과거 기능 양립에 필요한 경우를 제외하고 절대 확장하지 않는다.
 
 [출처](https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Inheritance_and_the_prototype_chain)
