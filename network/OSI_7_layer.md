@@ -98,4 +98,4 @@ OSI 7 계층에서 PDU개념을 중용시 하는데, Process Data Unit이란 각
 4계층이 왜 필요하냐면 쉽게 생각해서, 친구네 집 컴퓨터에 원격 접속하여 A라는 게임을 하려고 할때, IP를 이용해 원격접속이 됐지만,
 A라는 게임이 어디있는지를 찾아야하죠. 여기서 A라는 게임의 위치를 알려주는 것이 4계층의 역할입니다.
 
-[출처: http://beansberries.tistory.com/entry/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC-OSI-7-%EA%B3%84%EC%B8%B5#recentTrackback]
+[출처](http://beansberries.tistory.com/entry/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC-OSI-7-%EA%B3%84%EC%B8%B5#recentTrackback)
