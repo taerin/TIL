@@ -10,17 +10,17 @@
 처음에 syntax 하이라이팅을 끄는것이 이상했어요.
 
 > I couldn’t skip through the source that fast anymore and it became harder to read. 
-코드를 빠르게 훑어보는 것이 힘들어졌고 코드를 읽는 것 초자 어려워졌죠.
+코드를 빠르게 훑어보는 것이 힘들어졌고 코드를 읽는 것 조차 어려워졌죠.
 
 > Even though this appeared to be an impairment I found it to be the strongest argument for making the switch. 
-비록 이것이 코드 작성에 어려움을 주더지만 저희가 변화를 해야만 하는 강력한 논증을 발견했어요.
+비록 이것이 코드 작성에 어려움을 주었지만 저희가 변화를 해야만 하는 강력한 이유를 발견했어요.
 
 > By forcing me to read the code more carefully, it made me understand it better. 
-저에게 코드를 좀더 조심스럽게 읽게하고, 이것은 내가 코드를 더 잘 이해할 수 있게 만들었어요.
+그 변화는 저에게 코드를 좀더 조심스럽게 읽게하고, 내가 코드를 더 잘 이해할 수 있게 만들었어요.
 
 > Another thing that I’ve noticed was that my coding style changed.
 I was structuring my source better; I was applying recurring visual patterns, writing less convoluted statements, and keeping my files short and concise. 
-내가 알아챈 또다른 변화는 나의 코딩 크사일이 변했다는 거에요. 나는 내 소스를 좀 더 좋게 구성하기 시작했어요. 나는 반복적인 시각적 패턴을 적용하고 복잡한 문장을 피하고 나의 파일을 짧고 간결하게 유지하고 있더군요.
+내가 알아챈 또다른 변화는 나의 코딩 스타일이 변했다는 거에요. 나는 내 소스를 좀 더 좋게 구성하기 시작했어요. 나는 반복적인 시각적 패턴을 적용하고 복잡한 문장을 피하고 나의 파일을 짧고 간결하게 유지하고 있더군요.
 
 > Instead of external stimuli (e.g. Linter, QA) forcing these practices upon me I was doing them naturally.
 Linter 나 QA와 같이 이러한 연습을 강요하는 자극대신 자발적으로 내가 그것들을 하고있더라고요.
