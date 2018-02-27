@@ -1,5 +1,5 @@
 # Abstract Class vs Interface
-많은 사람들이 Abstract class와 인터페이스를 헷깔려하죠. 물론 저도 그래요! 
+많은 사람들이 Abstract class와 인터페이스를 헷갈려하죠. 물론 저도 그래요! 
 그래서 오늘들었던 강의를 바탕으로 정리를 하려고 합니다 :)
 
 ## Abstract class와 interface
