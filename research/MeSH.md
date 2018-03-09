@@ -1,6 +1,4 @@
 # MeSH
-[MeSH 란?](./data/what_is_a_MeSH.pdf)
-
 ## Reference
 ### Visualization
 [Mapping the Structure and Dynamics of Genomics-Related MeSH Terms Complex Networks](https://www.researchgate.net/figure/Circos-plot-of-MeSH-tree-headings-Circos-plot-displaying-the-interconnectivity-among_fig4_261372031)
