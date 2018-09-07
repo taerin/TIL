@@ -1,3 +1,0 @@
-github "ReactiveX/RxSwift" ~> 3.0
-github "SwiftyJSON/SwiftyJSON"
-github "RxSwiftCommunity/RxDataSources" ~> 1.0
