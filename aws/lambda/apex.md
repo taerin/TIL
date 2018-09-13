@@ -18,3 +18,7 @@ $ apex deploy
 $ echo '# Lambda 함수 호출'
 $ apex invoke hello
 ```
+
+Apex와 Serverless를 둘다 사용해본 결과 사실 사용법에서는 큰 차이점을 느끼지 못했다. 
+하지만 큰 두가지 차이점은 Apex는 node 버전 6까지만 지원한다는점..! Serverless는 node 8 까지 지원한다.
+그리고 그리고 Serverless는 실제 aws 람다에 올라가 있는 함수를 호출하는 메커니즘인 반면, Apex는 로컬 시뮬레이션만 지원한다는 점에서 큰 차이가 난다.
