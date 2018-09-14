@@ -15,3 +15,6 @@ $ serverless remove -f hello
 ``` 
 
 내일은 Apex를 테스트 해봐야지.
+
+## node modules dependency 추가
+작성한 handler 파일이 있는 곳에  package.json 파일을 생성하고, $ npm install 을 잊지말고 시행해 준다.
