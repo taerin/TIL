@@ -17,4 +17,10 @@ $ serverless remove -f hello
 내일은 Apex를 테스트 해봐야지.
 
 ## node modules dependency 추가
-작성한 handler 파일이 있는 곳에  package.json 파일을 생성하고, $ npm install 을 잊지말고 시행해 준다.
+작성한 handler 파일이 있는 곳에 package.json 파일을 생성하고, $ npm install 을 잊지말고 시행해 준다.
+
+## 기존에 존재하는 버킷에 이벤트 추가
+현재 이 기능은 serverless에서 구성이 불가능해보인다.
+severelss.yml에 이미 존재하는 S3 버켓에 이벤트를 연결하도록 구성해 놓은 채 deploy 하게되면 이미 존재하는 버켓이라는 오류가 발생했다.
+그래서 존재하는 버킷을 삭제 후 다시 deploy를 했더니 이벤트에 연결해놓은 버킷을 생성하면서 람다 및 스택, S3들이 구성된다.  
+이는 serverless를 remove 하거나 잘못된 구성으로부터 스토리지를 보호하려는 serverless의 철학으로 보인다. [이 이슈](https://github.com/serverless/serverless/issues/2154)를 참고할것. 
